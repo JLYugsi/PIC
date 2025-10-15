@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SALUDAR A PERSONA CON VARIABLES</title>
+</head>
+<body>
+    <script>
+        class SaludarPersona extends HTMLElement {
+            constructor(){
+                super();
+                this.attachShadow({mode:`open`});
+            }
+            connectedCallback(){
+                // 1. Atributos y sus valores
+                let nombre = this.getAttribute('nombre') || "sin nombre";
+                let edad = this.getAttribute('edad') || "desconocida";
+                let candidato = this.getAttribute('candidato') || "Candidato no especificado";
+                
+                // 2. Creacion de una única plantilla de HTML con todas las variables
+                const contentHTML = `
+                    <h1>Hola, mi nombre es ${nombre}</h1>
+                    <div>Mi edad es ${edad}</div>
+                    <h2>${candidato} 50 años</h2>
+                    `;
+                
+                // 3. Asignacion de la plantilla al Shadow DOM una sola vez
+                this.shadowRoot.innerHTML = contentHTML;
+            }
+        }
+
+        //definir el custom element con parametro
+        customElements.define('saludar-persona', SaludarPersona);
+    </script>
+
+    <saludar-persona nombre="Jorge" edad="24" candidato="Rafael Correa"></saludar-persona>
+</body>
+</html>
