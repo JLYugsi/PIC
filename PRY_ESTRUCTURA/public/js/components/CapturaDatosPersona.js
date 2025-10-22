@@ -27,7 +27,7 @@ class CapturaDatosPersona extends HTMLElement {
         let sexo = this.querySelectorAll('input[name="sexo"]');
 
         btn_send.addEventListener('click', function(){
-            let r_edad = edad.value <= 18 ? 'SOY MENOR DE EDAD' : 'SOY MAYOR DE EDAD';
+            let r_edad = edad.value < 18 ? 'SOY MENOR DE EDAD' : 'SOY MAYOR DE EDAD';
 
             let sexoSeleccionado = '';
             sexo.forEach(radio => {
