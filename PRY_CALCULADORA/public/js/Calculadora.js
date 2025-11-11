@@ -1,4 +1,4 @@
-class Calculadora extends HTMLElement {
+export class Calculadora extends HTMLElement {
     constructor() {
         super();
         const shadow = this.attachShadow({ mode: 'open' });
@@ -23,13 +23,13 @@ class Calculadora extends HTMLElement {
 
             <div class="row mb-1">
                 <div class="col-sm-3">
-                    <button data-value="1" class="btn btn-warning w-100">1</button>
+                    <boton-numero valor="1"></boton-numero>
                 </div>
                 <div class="col-sm-3">
-                    <button data-value="2" class="btn btn-warning w-100">2</button>
+                    <boton-numero valor="2"></boton-numero>
                 </div>
                 <div class="col-sm-3">
-                    <button data-value="3" class="btn btn-warning w-100">3</button>
+                    <boton-numero valor="3"></boton-numero>
                 </div>
                 <div class="col-sm-3">
                     <boton-operacion operacion="+"></boton-operacion>
@@ -38,13 +38,13 @@ class Calculadora extends HTMLElement {
 
             <div class="row mb-1">
                 <div class="col-sm-3">
-                    <button data-value="4" class="btn btn-warning w-100">4</button>
+                    <boton-numero valor="4"></boton-numero>
                 </div>
                 <div class="col-sm-3">
-                    <button data-value="5" class="btn btn-warning w-100">5</button>
+                    <boton-numero valor="5"></boton-numero>
                 </div>
                 <div class="col-sm-3">
-                    <button data-value="6" class="btn btn-warning w-100">6</button>
+                    <boton-numero valor="6"></boton-numero>
                 </div>
                 <div class="col-sm-3">
                     <boton-operacion operacion="-"></boton-operacion>
@@ -53,13 +53,13 @@ class Calculadora extends HTMLElement {
 
             <div class="row mb-1">
                 <div class="col-sm-3">
-                    <button data-value="7" class="btn btn-warning w-100">7</button>
+                    <boton-numero valor="7"></boton-numero>
                 </div>
                 <div class="col-sm-3">
-                    <button data-value="8" class="btn btn-warning w-100">8</button>
+                    <boton-numero valor="8"></boton-numero>
                 </div>
                 <div class="col-sm-3">
-                    <button data-value="9" class="btn btn-warning w-100">9</button>
+                    <boton-numero valor="9"></boton-numero>
                 </div>
                 <div class="col-sm-3">
                     <boton-operacion operacion="*"></boton-operacion>
@@ -68,10 +68,10 @@ class Calculadora extends HTMLElement {
 
             <div class="row">
                 <div class="col-sm-3">
-                    <button data-value="." class="btn btn-info w-100">.</button>
+                    <boton-numero valor="."></boton-numero>
                 </div>
                 <div class="col-sm-3">
-                    <button data-value="0" class="btn btn-warning w-100">0</button>
+                    <boton-numero valor="0"></boton-numero>
                 </div>
                 <div class="col-sm-3">
                     <button data-value="=" class="btn btn-success w-100 fw-bold">=</button>
@@ -84,23 +84,30 @@ class Calculadora extends HTMLElement {
         `;
 
         const display = shadow.getElementById('txt_numero');
-        const buttons = shadow.querySelectorAll('button');
+        const specialButtons = shadow.querySelectorAll('button');
         let expresion = "";
         let resultado = false;
 
-        this.addEventListener('operation-click', (event) => {
+        this.addEventListener('number-click', (event) => {
             const val = event.detail.value;
-
             if (resultado) {
+                expresion = "";
                 resultado = false;
-            } else {
             }
-
             expresion += val;
             display.value = expresion;
         });
 
-        buttons.forEach(btn => {
+        this.addEventListener('operation-click', (event) => {
+            const val = event.detail.value;
+            if (resultado) {
+                resultado = false;
+            }
+            expresion += val;
+            display.value = expresion;
+        });
+
+        specialButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const val = btn.getAttribute('data-value');
 
@@ -120,20 +127,10 @@ class Calculadora extends HTMLElement {
                             resultado = true;
                         }
                     }
-                } else {
-                    if (resultado) {
-                        expresion = "";
-                    }
-                    expresion += val;
-                    resultado = false;
                 }
-
                 display.value = expresion === "" ? "0" : expresion;
-            })
+            });
         });
-
         display.value = "0";
     }
 }
-
-customElements.define("calculadora-basica", Calculadora);
