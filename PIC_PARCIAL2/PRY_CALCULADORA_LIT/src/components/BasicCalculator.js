@@ -1,7 +1,13 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, unsafeCSS } from 'lit';
+
+import bootstrap from '../.././node_modules/bootstrap/dist/css/bootstrap.min.css?inline';
 
 export class BasicCalculator extends LitElement {
     
+    static styles = [
+            unsafeCSS(bootstrap)
+        ];
+
     static properties = {
         displayValue: { type: String },
         _lastWasResult: { state: true }
@@ -53,9 +59,6 @@ export class BasicCalculator extends LitElement {
 
     render() {
         return html`
-            <!-- Inyectamos Bootstrap directamente al Shadow DOM para aislamiento total -->
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-            
             <div class="card p-3 shadow-sm" style="max-width: 400px; margin: 0 auto; background-color: #2c3034;">
                 <div class="card-header mb-2 p-0 border-0 bg-transparent">
                     <input type="text" 
